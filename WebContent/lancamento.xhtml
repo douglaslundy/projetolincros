@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<ui:composition template="_template.xhtml">
+
+	<f:metadata>
+		<f:viewParam name="lancamentoid"
+			value="#{lancamentoBean.lancamentoid}" />
+		<f:viewAction action="#{lancamentoBean.carregarLancamentoPelaid}"
+			if="#{param.lancamentoid != null}" />
+	</f:metadata>
+
+	<ui:define name="titulo">
+		<p:outputPanel>Novo Lancamento</p:outputPanel>
+	</ui:define>
+
+	<ui:define name="conteudo">
+		<h:form id="cadastro">
+			<p:messages id="messages" />
+			<p:fieldset legend="Dados do Lancamento">
+				<p:panelGrid columns="2">
+					<p:outputLabel value="Data Inicial" for="dt_inicial" />
+					<p:calendar id="dt_inicial"
+						value="#{lancamentoBean.lancamento.dt_inicial.time}"
+						required="true" requiredMessage="Data Inicial e Obrigatória"
+						pattern="dd/MM/yyyy" timeZone="America/Sao_Paulo" />
+					<p:outputLabel value="Data Final:" for="dt_final" />
+					<p:calendar id="dt_final"
+						value="#{lancamentoBean.lancamento.dt_final.time}" required="true"
+						requiredMessage="Data Final e Obrigatória" pattern="dd/MM/yyyy"
+						timeZone="America/Sao_Paulo" />
+					<p:outputLabel value="Valor Total:" for="vl_total" />
+					<p:inputNumber readonly="true" id="vl_total"
+						value="#{lancamentoBean.lancamento.vl_total}"
+						validatorMessage="O Valor deve ser maior ou igual a R$ 0,00 e menor que R$ 10000,00">
+						<f:validateDoubleRange minimum="0.0" maximum="10000.00" />
+						<f:ajax event="keyup" render="messages" />
+					</p:inputNumber>
+					<p:outputLabel value="Observação:" for="observacao" />
+					<p:inputText id="observacao"
+						value="#{lancamentoBean.lancamento.observacao}"
+						validatorMessage="O Campo observação não pode conter acima de 200 caracteres">
+						<f:validateLength maximum="200" />
+					</p:inputText>
+				</p:panelGrid>
+			</p:fieldset>
+
+
+			<p:fieldset legend="Itens">
+				<p:panelGrid columns="4">
+					<p:outputLabel value="Selecione o item:" for="item" />
+					<p:selectOneMenu id="item" value="#{lancamentoBean.itemId}">
+						<f:selectItems value="#{itemBean.itens}" var="item"
+							itemLabel="#{item.descricao}" itemValue="#{item.oid}" />
+					</p:selectOneMenu>
+
+
+					<p:commandButton value="Adicionar Item"
+						action="#{lancamentoBean.adicionaItem}"
+						update="@form :formTbLancamentos" process="@form" />
+					<p:commandButton value="Cadastrar Novo Item"
+						action="#{lancamentoBean.formItem}" immediate="true" />
+				</p:panelGrid>
+
+				<p:dataTable value="#{lancamentoBean.itensLancamento}"
+					var="lancamentoItem" id="lancamentoItens"  paginator="true" rows="6">
+					<p:column>
+						<f:facet name="header">Item</f:facet>
+						<h:outputText value="#{lancamentoItem.descricao}" />
+					</p:column>
+					<p:column>
+						<f:facet name="header">Valor</f:facet>
+						<h:outputText value=" #{lancamentoItem.valor}" />
+					</p:column>
+					<p:column>
+						<f:facet name="header">Remover</f:facet>
+						<p:commandLink value="X"
+							action="#{lancamentoBean.removeItem(lancamentoItem)}"
+							update="@form" />
+					</p:column>
+				</p:dataTable>
+				<br />
+				<p:commandButton value="Gravar" action="#{lancamentoBean.gravar}"
+					update="@form :formTbLancamentos" process="@form" />
+			</p:fieldset>
+		</h:form>
+		<br />
+		<br />
+		<p:fieldset legend="Lançamentos">
+			<h:form id="formTbLancamentos">
+				<p:dataTable value="#{lancamentoBean.listarLancamentos}"
+					var="lancamento" id="tbLancamentos">
+					<p:column headerText="Data Inicial"
+						sortBy="#{lancamento.dt_inicial.time}">
+						<h:outputText value="#{lancamento.dt_inicial.time}">
+							<f:convertDateTime pattern="dd/MM/yyyy"
+								timeZone="America/Sao_Paulo" />
+						</h:outputText>
+					</p:column>
+					<p:column headerText="Data Final"
+						sortBy="#{lancamento.dt_final.time}">
+						<h:outputText value="#{lancamento.dt_final.time}">
+							<f:convertDateTime pattern="dd/MM/yyyy"
+								timeZone="America/Sao_Paulo" />
+						</h:outputText>
+					</p:column>
+					<p:column headerText="Valor" sortBy="#{lancamento.vl_total}">
+						<h:outputText value="#{lancamento.vl_total}" />
+					</p:column>
+					<p:column headerText="Observações"
+						sortBy="#{lancamento.observacao}">
+						<h:outputText value="#{lancamento.observacao}" />
+					</p:column>
+					<p:column headerText="Editar">
+						<p:commandLink value="editar"
+							action="#{lancamentoBean.editar(lancamento)}"
+							update="@form :cadastro" />
+					</p:column>
+					<p:column headerText="Remover">
+						<p:commandLink value="X"
+							action="#{lancamentoBean.remover(lancamento)}" update="@form" />
+					</p:column>
+				</p:dataTable>
+			</h:form>
+		</p:fieldset>
+	</ui:define>
+
+	<ui:define name="texto">
+		Lançamentos
+	</ui:define>
+
+</ui:composition>
+</html>

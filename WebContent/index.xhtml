@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<ui:composition template="_template.xhtml">
+
+	<ui:define name="titulo">
+		<p:outputPanel>Página Inicial</p:outputPanel>
+	</ui:define>
+	<ui:define name="conteudo">
+		<h:form>
+			<p:fieldset legend="Pagina Inicial">
+				<h:panelGrid columns="1">
+					<h2>#{bancoBean.mensagem}</h2>
+					<h3>Olá, seja bem vindo(a), Utilize o menu de navegação acima
+						Para alternar entre as paginas</h3>
+					<h4>Se este for seu primeiro acesso ao site peço por favor que
+						clique no botão abaixo para criar o banco de dados</h4>
+					<br />
+					<p:commandButton value="Construir o banco" action="#{bancoBean.construir}" immediate="true" update="@form" />
+				</h:panelGrid>
+			</p:fieldset>
+		</h:form>		
+	</ui:define>
+	<ui:define name="texto">
+			Pagina Inicial
+		</ui:define>
+</ui:composition>
+</html>

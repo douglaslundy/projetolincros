@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<h:head />
+<h:body>
+
+	<div id="cabecalho">
+		<h:graphicImage library="img" name="lincros-logo.png" />
+		<br />
+		<br />
+
+		<h:form>
+			<p:menuButton value="Menu de Navegação">
+				<p:menuitem value="Lancamentos"
+					action="lancamento?faces-redirect=true" icon="fa fa-fw fa-edit" />
+				<p:menuitem value="Itens" action="item?faces-redirect=true"
+					icon="fa fa-fw fa-edit" />
+				<p:menuitem value="Consultas" action="consultas?faces-redirect=true"
+					icon="fa fa-fw fa-edit" />
+				<p:menuitem value="Primos" action="primos?faces-redirect=true"
+					icon="fa fa-fw fa-edit" />
+				<p:menuitem value="Interseçao"
+					action="intersecao?faces-redirect=true" icon="fa fa-fw fa-edit" />
+				<p:separator />
+				<p:menuitem value="Home" action="index?faces-redirect=true"
+					icon="fa fa-fw fa-home" />
+			</p:menuButton>
+		</h:form>
+		<h1>
+			<ui:insert name="titulo"></ui:insert>
+		</h1>
+
+	</div>
+
+	<div id="conteudo">
+		<ui:insert name="conteudo"></ui:insert>
+	</div>
+
+	<div id="rodape">
+		copyright @ 2019 - todos os direitos reservados -
+		<ui:insert name="texto">
+		</ui:insert>
+	</div>
+
+</h:body>
+
+
+
+</html>

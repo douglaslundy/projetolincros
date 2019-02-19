@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<ui:composition template="_template.xhtml">
+
+	<f:metadata>
+		<f:viewParam name="itemid" value="#{itemBean.itemid}" />
+		<f:viewAction action="#{itemBean.carregaritemPelaid}" if="#{param.itemid != null}" />
+	</f:metadata>
+
+	<ui:define name="titulo">
+		<p:outputPanel>Novo Item</p:outputPanel>
+	</ui:define>
+	
+	<ui:define name="conteudo">		
+	<h:form id="cadastroItem">
+		<p:messages id="messages" />
+		<p:fieldset legend="Dados do Item">
+			<p:panelGrid columns="6">
+				<p:outputLabel value="Valor:" for="valor" />
+				<p:inputText  id="valor" value="#{itemBean.item.valor}" validatorMessage="O Valor deve ser maior ou igual a R$ 0,00 e menor que R$ 10000,00" >
+					<f:validateDoubleRange minimum="0.00" maximum="10000.00"/>
+					<f:ajax event="keyup" render="messages"/>
+				</p:inputText>
+				
+				<p:outputLabel value="Descrição" for="descricao" />
+				<p:inputText id="descricao" value="#{itemBean.item.descricao}" validatorMessage="O Campo Descrição não pode conter acima de 30 caracteres">
+					<f:validateLength maximum="30" />					
+					<f:ajax event="keyup" render="messages"/>
+				</p:inputText>
+				
+				<p:commandButton value="Gravar" action="#{itemBean.gravar}"  update=":cadastroItem :formItem"/>
+				
+				<p:commandButton value="Cadastrar Lancamento" action="#{itemBean.formLancamento}" immediate="true" />
+		
+			</p:panelGrid>
+		</p:fieldset>		
+	</h:form>
+	<h:form id="formItem">
+		<p:dataTable value="#{itemBean.itens}" var="item" id="tbitens">
+			<p:column>
+				<f:facet name="header">Descrição</f:facet>
+				<h:outputText value="#{item.descricao}"/>
+			</p:column>
+			<p:column>
+				<f:facet name="header">Valor</f:facet>
+				<h:outputText value="#{item.valor}" />
+			</p:column>
+			<p:column>
+				<f:facet name="header">Editar</f:facet>
+				<p:commandLink value="editar" action="#{itemBean.carregar(item)}" update="@form :cadastroItem" />
+			</p:column>	
+			<p:column>
+				<f:facet name="header">Remover</f:facet>
+				<p:commandLink value="X" action="#{itemBean.remover(item)}" update="@form :formItem" />
+			</p:column>		
+		</p:dataTable>
+	</h:form>
+	</ui:define>
+	<ui:define name="texto">
+			Cadastro de Item
+		</ui:define>
+</ui:composition>
+</html>

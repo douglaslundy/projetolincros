@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<ui:composition template="_template.xhtml">
+
+	<ui:define name="titulo">
+		<p:outputPanel>Página de consultas</p:outputPanel>
+	</ui:define>
+	
+	<ui:define name="conteudo">		
+	
+	
+	
+	
+	<h:form>
+		<p:messages id="messages" />
+		<p:fieldset legend="Página de Consultas">
+			<h:panelGrid columns="3">
+				
+				<p:commandButton value="Lançamentos com Média maior que 100" action="#{lancamentoBean.buscaLancamentosMediaMaior}" update="@form :formTbResultadoConsulta" process="@form" />
+				<p:commandButton value="Lançamentos com maior valor, começando com A e somatório e maior que 50" action="#{lancamentoBean.buscaLancamentosMaiorValorEDescricaoComecaComA}" update="@form :formTbResultadoConsulta" process="@form" />
+				<p:commandButton value="Atualizar Lançamentos com mais de 10 Itens" action="#{lancamentoBean.selecionaLancamentosComMaisDeDezItens}" update="@form :formTbResultadoConsulta" process="@form" />
+			</h:panelGrid>
+		</p:fieldset>		
+	</h:form>
+	
+	
+		<h:form id="formTbResultadoConsulta">
+			<p:dataTable value="#{lancamentoBean}" var="resultado" id="tbResultadoConsulta">
+				<p:column>
+					<f:facet name="header">Resultado das Consultas</f:facet>
+					<h:outputText value="#{resultado.mensagemConsultas}" />
+				</p:column>				
+			</p:dataTable>	
+		</h:form>
+
+
+
+</ui:define>
+	<ui:define name="texto">
+			Página de Consultas
+		</ui:define>
+</ui:composition>
+</html>
+
+
+
+
+

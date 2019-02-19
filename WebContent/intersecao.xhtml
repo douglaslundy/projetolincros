@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<ui:composition template="_template.xhtml">
+
+	<ui:define name="titulo">
+		<p:outputPanel>Página Interseção</p:outputPanel>
+	</ui:define>
+	
+	<ui:define name="conteudo">		
+	
+	
+	
+	
+	<h:form>
+		<p:messages id="messages" />
+		<p:fieldset legend="Entre com os intervalos de números para vericar existencia de interseção">
+			<p:panelGrid columns="3">
+			
+			<p:outputLabel value="Faixa 1"/>
+				<p:inputText id="f1a" value="#{intersecaoBean.f1a}">
+					<f:attribute name="type" value="number"/>
+				</p:inputText>
+				<p:inputText id="f1b" value="#{intersecaoBean.f1b}" >
+					<f:attribute name="type" value="number"/>
+				</p:inputText>
+				<p:outputLabel value="Faixa 2"/>
+				<p:inputText id="f2a" value="#{intersecaoBean.f2a}">
+					<f:attribute name="type" value="number"/>
+				</p:inputText>
+				<p:inputText id="f2b" value="#{intersecaoBean.f2b}">
+					<f:attribute name="type" value="number"/>
+				</p:inputText>
+			</p:panelGrid>
+			<p:commandButton value="Existe interseção?" action="#{intersecaoBean.existeIntersecao}" update="@form :formTbIntersecao" process="@form" />
+		</p:fieldset>		
+	</h:form>
+	
+	
+		<h:form id="formTbIntersecao">
+			<p:dataTable value="#{intersecaoBean}" var="intersecao" id="tbIntersecao">
+				<p:column>
+					<f:facet name="header">Existe Interseção</f:facet>
+					<h:outputText value="#{intersecao.menssagem}" />
+				</p:column>				
+			</p:dataTable>	
+		</h:form>
+
+
+
+</ui:define>
+	<ui:define name="texto">
+			Página Verifica Interseção
+		</ui:define>
+</ui:composition>
+</html>
+
+
+
+
+
